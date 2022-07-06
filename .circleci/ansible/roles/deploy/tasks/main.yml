@@ -1,7 +1,7 @@
 - name: "extract the zipped artifact"
   unarchive:
     src: ~/project/artifact.tar.gz
-    dest: ~/
+    dest: /home/ubuntu/
 
 - name: "Install dependency NodeJS and NPM"
   become: true
@@ -17,4 +17,7 @@
     global: yes
 
 - name: "start the app"
-  command: pm2 start npm --start
+  shell: |
+    cd /home/ubuntu/artifact/dist
+    pm2 stop default
+    pm2 start main.js
