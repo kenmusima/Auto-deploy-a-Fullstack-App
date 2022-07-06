@@ -14,7 +14,7 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name udapeople-backendinfra-<< parameters.Workflow_ID >>
             aws cloudformation delete-stack --stack-name udapeople-frontendinfra-<< parameters.Workflow_ID >>
-
+            aws s3 rm s3://udapeople- << parameters.Workflow_ID >> --recursive
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
@@ -258,7 +258,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.9.0-alpine
+      - image: python:3.8-alpine3.16
     steps:
       - checkout
       - add_ssh_keys:
