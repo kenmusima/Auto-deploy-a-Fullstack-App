@@ -28,7 +28,7 @@ commands:
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             SUCCESS = $(curl --insecure https://kvdb.io/9GMgy9sE7ivdqMDNGEN6c9/migration_${CIRCLE_WORKFLOW_ID:0:7})
-            if(( SUCCESS)); 
+            if(( $SUCCESS)); 
             then
               cd ~/project/backend
               npm install
@@ -227,6 +227,10 @@ jobs:
       - restore_cache:
           keys: [frontend-build]
       - run:
+          name: Install tar utility
+          command: |
+            yum install -y tar gzip
+      - run:
           name: Install dependencies
           command: |
             cd frontend
@@ -268,6 +272,7 @@ jobs:
           command: |
             apk add --update ansible curl rsync openssh nodejs npm
             pip install awscli
+            yum install -y tar gzip
       - run:
           name: Deploy backend
           command: |
