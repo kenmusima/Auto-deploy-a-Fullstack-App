@@ -289,20 +289,20 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - awscli-install
       - run:
           name: Install dependencies
           command: |
-            apk add --update curl
+            apk add --update ansible curl rsync openssh nodejs npm tar gzip
+            pip install awscli
       - run:
           name: Get backend url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:project,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --filters "Name=tag:project,Values=udapeople" \
               --output text)
 
       - run:
