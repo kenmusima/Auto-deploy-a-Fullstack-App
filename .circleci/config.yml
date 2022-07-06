@@ -260,7 +260,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: amazon/aws-cli
+      - image: python:3.9.0-alpine
     steps:
       - checkout
       - run:
