@@ -1,0 +1,23 @@
+- name: "extract the zipped artifact"
+  unarchive:
+    src: ~/project/backend.tar.gz
+    dest: /home/ubuntu/
+
+- name: "Install dependency NodeJS and NPM"
+  become: true
+  apt:
+    name: ["nodejs", "npm"]
+    state: latest
+    update_cache: yes
+
+- name: "install pm2"
+  become: true
+  npm:
+    name: pm2
+    global: yes
+
+- name: "start the app"
+  shell: |
+    cd /home/ubuntu/backend/dist
+    pm2 stop default
+    pm2 start main.js
