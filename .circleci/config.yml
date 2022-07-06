@@ -257,19 +257,21 @@ jobs:
           Workflow_ID: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
           Workflow_ID: ${CIRCLE_WORKFLOW_ID:0:7}
+
   deploy-backend:
     docker:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: ["ba:a6:6d:84:77:83:6a:cb:87:0c:61:b7:fe:f7:97:b7"]
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install tar utility
           command: |
             yum install -y tar gzip
+
+      - add_ssh_keys:
+          fingerprints: ["ba:a6:6d:84:77:83:6a:cb:87:0c:61:b7:fe:f7:97:b7"]
+      - attach_workspace:
+          at: ~/
       - run:
           name: Install dependencies
           command: |
