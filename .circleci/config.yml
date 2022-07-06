@@ -32,7 +32,7 @@ commands:
             then
               cd ~/project/backend
               npm install
-              npm run migrations:revet
+              npm run migrations:revert
             fi
   awscli-install:
     description: Install AWS CLI
@@ -233,8 +233,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            cd frontend
-            npm install
+            apk add --update ansible curl rsync openssh nodejs npm
       - run:
           name: Get backend url
           command: |
@@ -268,11 +267,14 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:
+          name: Install tar utility
+          command: |
+            yum install -y tar gzip
+      - run:
           name: Install dependencies
           command: |
             apk add --update ansible curl rsync openssh nodejs npm
             pip install awscli
-            yum install -y tar gzip
       - run:
           name: Deploy backend
           command: |
