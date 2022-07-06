@@ -13,8 +13,9 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name udapeople-backendinfra-<< parameters.Workflow_ID >>
+            aws s3 rm s3://udapeople-<< parameters.Workflow_ID >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontendinfra-<< parameters.Workflow_ID >>
-            aws s3 rm s3://udapeople- << parameters.Workflow_ID >> --recursive
+
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
@@ -304,11 +305,13 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople" \
               --output text)
-
+            echo "${BACKEND_IP}"
       - run:
           name: Backend smoke test.
           command: |
+            echo "${BACKEND_IP}"
             export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
             if curl -s $API_URL/api/status | grep "ok"
             then
               exit 0
