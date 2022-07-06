@@ -1,3 +1,9 @@
+---
+- name: "update apt packages."
+  become: true
+  apt:
+    update_cache: yes
+
 - name: "upgrade packages"
   become: true
   apt:
@@ -15,3 +21,5 @@
   npm:
     name: pm2
     global: yes
+    production: yes
+    state: present
