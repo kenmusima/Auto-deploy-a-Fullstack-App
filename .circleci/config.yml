@@ -180,7 +180,6 @@ jobs:
       - image: python:3.8-alpine3.16
     steps:
       - checkout
-      - awscli-install
       - add_ssh_keys:
           fingerprints: ["ba:a6:6d:84:77:83:6a:cb:87:0c:61:b7:fe:f7:97:b7"]
       - attach_workspace:
