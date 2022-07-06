@@ -21,17 +21,6 @@ commands:
       Workflow_ID:
         type: string
         default: ${CIRCLE_WORKFLOW_ID}
-
-  awscli-install:
-    description: Install AWS CLI v2
-    steps:
-      - run:
-          name: Install AWS CLI v2
-          command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-
     steps:
       - run:
           name: Revert migrations
@@ -45,7 +34,15 @@ commands:
               npm install
               npm run migrations:revet
             fi
-
+  awscli-install:
+    description: Install AWS CLI
+    steps:
+      - run:
+          name: Install AWS CLI
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
 jobs:
   build-frontend:
     docker:
