@@ -221,15 +221,12 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
+      - awscli-install
       - restore_cache:
           keys: [frontend-build]
-      - run:
-          name: Install tar utility
-          command: |
-            yum install -y tar gzip
       - run:
           name: Install dependencies
           command: |
@@ -263,11 +260,6 @@ jobs:
       - image: python:3.9.0-alpine
     steps:
       - checkout
-      - run:
-          name: Install tar utility
-          command: |
-            yum install -y tar gzip
-
       - add_ssh_keys:
           fingerprints: ["ba:a6:6d:84:77:83:6a:cb:87:0c:61:b7:fe:f7:97:b7"]
       - attach_workspace:
