@@ -391,7 +391,6 @@ jobs:
           name: Remove old stacks and files
           command: |
             for WorkflowID in ${STACKS[@]}
-            echo "${WorkflowID: -7}"
             do
             if [[ "${WorkflowID: -7}" =~ "${CIRCLE_WORKFLOW_ID:0:7}" ]]
             then
