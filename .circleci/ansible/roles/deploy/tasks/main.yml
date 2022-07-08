@@ -1,7 +1,13 @@
-- name: "extract the zipped artifact"
-  unarchive:
-    src: ~/project/artifact.tar.gz
-    dest: ~/
+---
+- name: "update apt packages."
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "upgrade packages"
+  become: true
+  apt:
+    upgrade: "yes"
 
 - name: "Install dependency NodeJS and NPM"
   become: true
@@ -15,9 +21,17 @@
   npm:
     name: pm2
     global: yes
+    state: latest
+    production: yes
+
+- name: extract artifact
+  become: true
+  unarchive:
+    src: files/artifact.tar.gz
+    dest: .
 
 - name: "start the app"
+  become: true
   shell: |
-    npm install
-    pm2 stop default
+    pm2 stop all
     pm2 start npm -- start
