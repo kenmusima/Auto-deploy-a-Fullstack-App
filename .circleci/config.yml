@@ -392,13 +392,13 @@ jobs:
           command: |
             for WorkflowID in "${STACKS[@]}"
             do
-              if [ "${WorkflowID:-7}" =~ "${CIRCLE_WORKFLOW_ID:0:7}" ]
+              if [[ "${WorkflowID:-7}" =~ "${CIRCLE_WORKFLOW_ID:0:7}" ]]
               then
+                echo "No stack available to be removed"
+              else
                 aws s3 rm "s3://udapeople-${WorkflowID: -7}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backendinfra-${WorkflowID: -7}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontendinfra-${WorkflowID: -7}"
-              else
-                echo No stack available to be removed
             fi
             done
 workflows:
@@ -431,5 +431,5 @@ workflows:
           requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+      # - cleanup:
+      #     requires: [cloudfront-update]
