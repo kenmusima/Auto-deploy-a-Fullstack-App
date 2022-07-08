@@ -2,4 +2,7 @@
 https://github.com/kenmusima/cdond-c3-projectstarter
 
 #URL02
-http://udapeople-d2caca6.s3-website-us-east-1.amazonaws.com/
+http://udapeople-ff4450d.s3-website-us-east-1.amazonaws.com/
+
+#CloudFront
+d22nz8e790i104.cloudfront.net

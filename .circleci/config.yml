@@ -397,8 +397,8 @@ jobs:
                 echo "No stack available to be removed"
               else
                 aws s3 rm "s3://udapeople-${WorkflowID: -7}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backendinfra-${WorkflowID: -7}"
-                aws cloudformation delete-stack --stack-name "udapeople-frontendinfra-${WorkflowID: -7}"
+                aws cloudformation delete-stack --stack-name "udapeople-backendinfra-${WorkflowID:-7}"
+                aws cloudformation delete-stack --stack-name "udapeople-frontendinfra-${WorkflowID:-7}"
             fi
             done
 workflows:
@@ -427,9 +427,9 @@ workflows:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
       - cloudfront-update:
-          requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+          requires: [deploy-backend, deploy-frontend]
+      # - cleanup:
+      #     requires: [cloudfront-update]
